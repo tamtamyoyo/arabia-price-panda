@@ -1,4 +1,3 @@
-
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 
 type Language = 'en' | 'ar';
@@ -40,6 +39,11 @@ const translations = {
     'priceHistory': 'Price History',
     'sortBy': 'Sort By',
     'filter': 'Filter',
+    'hotDeals': 'Hot Deals',
+    'todayDeals': "Today's Deals",
+    'weekDeals': 'This Week Deals',
+    'trendingSearches': 'Trending Searches',
+    'searches': 'searches'
   },
   ar: {
     'home': 'الرئيسية',
@@ -71,6 +75,11 @@ const translations = {
     'priceHistory': 'تاريخ السعر',
     'sortBy': 'ترتيب حسب',
     'filter': 'تصفية',
+    'hotDeals': 'أفضل العروض',
+    'todayDeals': 'عروض اليوم',
+    'weekDeals': 'عروض الأسبوع',
+    'trendingSearches': 'الأكثر بحثاً',
+    'searches': 'بحث'
   }
 };
 
@@ -80,7 +89,6 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguage] = useState<Language>('en');
 
   useEffect(() => {
-    // Set language direction based on current language
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = language;
     document.body.className = language === 'ar' ? 'rtl font-arabic' : 'ltr';
