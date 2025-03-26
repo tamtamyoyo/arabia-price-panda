@@ -49,7 +49,31 @@ const translations = {
     'trendingSearches': 'Trending Searches',
     'searches': 'searches',
     'darkMode': 'Dark Mode',
-    'lightMode': 'Light Mode'
+    'lightMode': 'Light Mode',
+    'recentSearches': 'Recent Searches',
+    'noResults': 'No results found',
+    'searchSources': 'Search Sources',
+    'searchingIn': 'Searching in',
+    'priceRange': 'Price Range',
+    'stores': 'Stores',
+    'applyFilters': 'Apply Filters',
+    'allProducts': 'All Products',
+    'exploreMore': 'Explore More',
+    'instantPriceAlerts': 'Instant Price Alerts',
+    'getNotified': 'Get notified when prices drop',
+    'bestPrice': 'Best Price',
+    'allRights': 'All Rights Reserved',
+    'termsOfService': 'Terms of Service',
+    'privacyPolicy': 'Privacy Policy',
+    'contactUs': 'Contact Us',
+    'aboutUs': 'About Us',
+    'helpCenter': 'Help Center',
+    'faq': 'FAQ',
+    'emailSubscribe': 'Subscribe to our newsletter',
+    'subscribe': 'Subscribe',
+    'compareNow': 'Compare Now',
+    'findBestDeals': 'Find the best deals across top online stores',
+    'saveMoney': 'Save money on your purchases'
   },
   ar: {
     'home': 'الرئيسية',
@@ -87,14 +111,38 @@ const translations = {
     'trendingSearches': 'الأكثر بحثاً',
     'searches': 'بحث',
     'darkMode': 'الوضع الداكن',
-    'lightMode': 'الوضع الفاتح'
+    'lightMode': 'الوضع الفاتح',
+    'recentSearches': 'عمليات البحث الأخيرة',
+    'noResults': 'لم يتم العثور على نتائج',
+    'searchSources': 'مصادر البحث',
+    'searchingIn': 'البحث في',
+    'priceRange': 'نطاق السعر',
+    'stores': 'المتاجر',
+    'applyFilters': 'تطبيق الفلاتر',
+    'allProducts': 'جميع المنتجات',
+    'exploreMore': 'استكشاف المزيد',
+    'instantPriceAlerts': 'تنبيهات الأسعار الفورية',
+    'getNotified': 'احصل على إشعار عند انخفاض الأسعار',
+    'bestPrice': 'أفضل سعر',
+    'allRights': 'جميع الحقوق محفوظة',
+    'termsOfService': 'شروط الخدمة',
+    'privacyPolicy': 'سياسة الخصوصية',
+    'contactUs': 'اتصل بنا',
+    'aboutUs': 'من نحن',
+    'helpCenter': 'مركز المساعدة',
+    'faq': 'الأسئلة الشائعة',
+    'emailSubscribe': 'اشترك في نشرتنا الإخبارية',
+    'subscribe': 'اشترك',
+    'compareNow': 'قارن الآن',
+    'findBestDeals': 'ابحث عن أفضل العروض عبر أشهر المتاجر',
+    'saveMoney': 'وفر المال على مشترياتك'
   }
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState<Language>('ar');
+  const [language, setLanguage] = useState<Language>('ar'); // Arabic as default
   const [theme, setTheme] = useState<Theme>('light');
 
   useEffect(() => {
@@ -118,13 +166,6 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    // Apply theme settings
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    
     // Save preferences
     localStorage.setItem('language', language);
     localStorage.setItem('theme', theme);
