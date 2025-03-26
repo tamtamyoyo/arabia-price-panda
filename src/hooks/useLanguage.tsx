@@ -1,10 +1,14 @@
+
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 
 type Language = 'en' | 'ar';
+type Theme = 'light' | 'dark';
 
 interface LanguageContextType {
   language: Language;
+  theme: Theme;
   toggleLanguage: () => void;
+  toggleTheme: () => void;
   t: (key: string) => string;
 }
 
@@ -43,7 +47,9 @@ const translations = {
     'todayDeals': "Today's Deals",
     'weekDeals': 'This Week Deals',
     'trendingSearches': 'Trending Searches',
-    'searches': 'searches'
+    'searches': 'searches',
+    'darkMode': 'Dark Mode',
+    'lightMode': 'Light Mode'
   },
   ar: {
     'home': 'الرئيسية',
@@ -79,23 +85,65 @@ const translations = {
     'todayDeals': 'عروض اليوم',
     'weekDeals': 'عروض الأسبوع',
     'trendingSearches': 'الأكثر بحثاً',
-    'searches': 'بحث'
+    'searches': 'بحث',
+    'darkMode': 'الوضع الداكن',
+    'lightMode': 'الوضع الفاتح'
   }
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState<Language>('en');
+  const [language, setLanguage] = useState<Language>('ar');
+  const [theme, setTheme] = useState<Theme>('light');
 
   useEffect(() => {
+    // Apply language settings to document
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = language;
     document.body.className = language === 'ar' ? 'rtl font-arabic' : 'ltr';
-  }, [language]);
+    
+    // Check for saved preferences
+    const savedLanguage = localStorage.getItem('language') as Language;
+    if (savedLanguage) {
+      setLanguage(savedLanguage);
+    }
+    
+    const savedTheme = localStorage.getItem('theme') as Theme;
+    if (savedTheme) {
+      setTheme(savedTheme);
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setTheme('dark');
+    }
+  }, []);
+
+  useEffect(() => {
+    // Apply theme settings
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    
+    // Save preferences
+    localStorage.setItem('language', language);
+    localStorage.setItem('theme', theme);
+  }, [language, theme]);
 
   const toggleLanguage = () => {
-    setLanguage(prev => prev === 'en' ? 'ar' : 'en');
+    setLanguage(prev => {
+      const newLang = prev === 'en' ? 'ar' : 'en';
+      localStorage.setItem('language', newLang);
+      return newLang;
+    });
+  };
+
+  const toggleTheme = () => {
+    setTheme(prev => {
+      const newTheme = prev === 'light' ? 'dark' : 'light';
+      localStorage.setItem('theme', newTheme);
+      return newTheme;
+    });
   };
 
   const t = (key: string) => {
@@ -103,7 +151,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <LanguageContext.Provider value={{ language, toggleLanguage, t }}>
+    <LanguageContext.Provider value={{ language, theme, toggleLanguage, toggleTheme, t }}>
       {children}
     </LanguageContext.Provider>
   );

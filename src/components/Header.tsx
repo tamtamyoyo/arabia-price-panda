@@ -1,12 +1,12 @@
 
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, Search, Heart, User, X } from 'lucide-react';
+import { Menu, Search, Heart, User, X, Sun, Moon } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
 import { Button } from '@/components/ui/button';
 
 const Header = () => {
-  const { t, language, toggleLanguage } = useLanguage();
+  const { t, language, theme, toggleLanguage, toggleTheme } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -22,7 +22,11 @@ const Header = () => {
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 md:px-8 ${
-        isScrolled ? 'py-2 glass shadow-sm' : 'py-4 bg-transparent'
+        isScrolled 
+          ? theme === 'dark' 
+            ? 'py-2 glass-dark shadow-sm' 
+            : 'py-2 glass shadow-sm' 
+          : 'py-4 bg-transparent'
       }`}
     >
       <div className="container mx-auto">
@@ -53,6 +57,17 @@ const Header = () => {
 
           {/* Right Side Actions */}
           <div className="flex items-center">
+            {/* Theme Toggle */}
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={toggleTheme}
+              className="text-sm font-medium p-2 rounded-full hover:bg-secondary transition-colors"
+              aria-label={theme === 'dark' ? t('lightMode') : t('darkMode')}
+            >
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            </Button>
+            
             {/* Language Toggle */}
             <Button 
               variant="ghost" 

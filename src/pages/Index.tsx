@@ -8,10 +8,10 @@ import TrendingSection from '@/components/TrendingSection';
 import Footer from '@/components/Footer';
 
 const Index = () => {
-  const { language } = useLanguage();
+  const { language, theme } = useLanguage();
 
   return (
-    <div className={`min-h-screen flex flex-col ${language === 'ar' ? 'rtl' : 'ltr'}`}>
+    <div className={`min-h-screen flex flex-col ${language === 'ar' ? 'rtl' : 'ltr'} ${theme === 'dark' ? 'dark bg-gray-900 text-gray-100' : ''}`}>
       <Header />
       
       <main className="flex-grow">

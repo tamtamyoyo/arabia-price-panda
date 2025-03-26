@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { useLanguage } from '@/hooks/useLanguage';
 
 const Footer = () => {
-  const { t, language } = useLanguage();
+  const { t, language, theme } = useLanguage();
   
   return (
-    <footer className="bg-secondary/50 pt-12 pb-6 mt-auto">
+    <footer className={`${theme === 'dark' ? 'bg-gray-800/50' : 'bg-secondary/50'} pt-12 pb-6 mt-auto`}>
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
@@ -97,7 +97,7 @@ const Footer = () => {
         </div>
 
         {/* Copyright */}
-        <div className="pt-6 mt-6 border-t border-border text-center text-sm text-muted-foreground">
+        <div className={`pt-6 mt-6 border-t ${theme === 'dark' ? 'border-gray-700' : 'border-border'} text-center text-sm text-muted-foreground`}>
           <p>
             © {new Date().getFullYear()} PricePanda. {language === 'en' ? 'All rights reserved.' : 'جميع الحقوق محفوظة.'}
           </p>

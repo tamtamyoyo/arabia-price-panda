@@ -81,7 +81,7 @@
   }
   
   .glass-dark {
-    @apply bg-black/10 backdrop-blur-md border border-white/10;
+    @apply bg-black/50 backdrop-blur-md border border-white/10 shadow-md;
   }
   
   .rtl {
@@ -106,6 +106,10 @@
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-500;
   }
+
+  .dark .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600;
+  }
 }
 
 .fade-enter {
@@ -124,4 +128,12 @@
 .fade-exit-active {
   opacity: 0;
   transition: opacity 300ms;
+}
+
+.dark .bg-secondary\/30 {
+  background-color: rgba(30, 41, 59, 0.3);
+}
+
+.dark .hover\:bg-secondary:hover {
+  background-color: rgba(30, 41, 59, 0.8);
 }
