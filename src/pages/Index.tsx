@@ -10,6 +10,14 @@ import TrendingSection from '@/components/TrendingSection';
 import PriceHistory from '@/components/PriceHistory';
 import Newsletter from '@/components/Newsletter';
 import Footer from '@/components/Footer';
+import PopularProducts from '@/components/PopularProducts';
+import RecommendedProducts from '@/components/RecommendedProducts';
+import StoresSection from '@/components/StoresSection';
+import LatestProducts from '@/components/LatestProducts';
+import WhyChooseUs from '@/components/WhyChooseUs';
+import PopularStores from '@/components/PopularStores';
+import Testimonials from '@/components/Testimonials';
+import AppDownload from '@/components/AppDownload';
 
 const Index = () => {
   const { language, theme } = useLanguage();
@@ -26,6 +34,8 @@ const Index = () => {
           <CategoryList />
         </div>
         
+        <PopularStores />
+        
         <div className="container mx-auto px-4">
           <FeaturedProduct />
         </div>
@@ -35,16 +45,33 @@ const Index = () => {
           <DealsSection />
         </div>
         
+        <PopularProducts />
+        
+        <div className="relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/5 to-blue-500/5 -z-10"></div>
+          <RecommendedProducts />
+        </div>
+        
+        <WhyChooseUs />
+        
         <BrowseByBrand />
         
         <div className="container mx-auto px-4">
           <PriceHistory />
         </div>
         
+        <LatestProducts />
+        
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-l from-secondary/20 to-primary/10 -skew-y-3 -z-10 transform-gpu"></div>
           <TrendingSection />
         </div>
+        
+        <StoresSection />
+        
+        <AppDownload />
+        
+        <Testimonials />
         
         <div className="container mx-auto px-4">
           <Newsletter />
