@@ -5,7 +5,7 @@ import { useLanguage } from '@/hooks/useLanguage';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
-import SearchBar from '@/components/SearchBar';
+import SearchBar from '@/components/search/SearchBar';
 import { Filter, SortAsc, SortDesc, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 

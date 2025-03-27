@@ -1,6 +1,6 @@
 
 import { useLanguage } from '@/hooks/useLanguage';
-import SearchBar from './SearchBar';
+import SearchBar from './search/SearchBar';
 import { ArrowRight, ArrowLeft, Bell, ShoppingBag, Zap } from 'lucide-react';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
