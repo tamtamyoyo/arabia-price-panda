@@ -1,13 +1,15 @@
-
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useLanguage } from '@/hooks/useLanguage';
+import { Filter } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import ProductCard from '@/components/ProductCard';
 import SearchBar from '@/components/search/SearchBar';
-import { Filter, SortAsc, SortDesc, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import FilterSidebar from '@/components/search/filters/FilterSidebar';
+import MobileFilterSidebar from '@/components/search/filters/MobileFilterSidebar';
+import SortOptions, { SortOption } from '@/components/search/SortOptions';
+import ProductGrid from '@/components/search/ProductGrid';
 
 // Mock data for development
 const mockProducts = [
@@ -93,9 +95,6 @@ const mockProducts = [
   }
 ];
 
-// Sort options
-type SortOption = 'price_asc' | 'price_desc' | 'discount' | 'popularity';
-
 const SearchResults = () => {
   const location = useLocation();
   const { t, language } = useLanguage();
@@ -157,6 +156,16 @@ const SearchResults = () => {
     setFilteredProducts(sortProducts(filteredProducts, option));
   };
 
+  // Apply filters
+  const applyFilters = () => {
+    // Here you would apply all filters - just a placeholder for now
+    console.log('Applying filters:', {
+      priceRange,
+      selectedStores,
+      selectedCategories
+    });
+  };
+
   return (
     <div className={`min-h-screen flex flex-col ${language === 'ar' ? 'rtl' : 'ltr'}`}>
       <Header />
@@ -183,77 +192,17 @@ const SearchResults = () => {
           {/* Filters and Results */}
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Sidebar Filters - Desktop */}
-            <aside className="hidden lg:block w-64 glass rounded-xl p-4 h-fit sticky top-24">
-              <h2 className="font-medium mb-4">{t('filter')}</h2>
-              
-              {/* Price Range */}
-              <div className="mb-6">
-                <h3 className="text-sm font-medium mb-3">{t('priceRange')}</h3>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">AED {priceRange[0]}</span>
-                    <span className="text-sm text-muted-foreground">AED {priceRange[1]}</span>
-                  </div>
-                  {/* Here would be a slider component for price range */}
-                  <div className="h-1 bg-secondary rounded-full relative">
-                    <div className="absolute inset-0 h-full bg-primary rounded-full" style={{ width: '60%' }}></div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Stores */}
-              <div className="mb-6">
-                <h3 className="text-sm font-medium mb-3">{t('stores')}</h3>
-                <div className="space-y-2">
-                  {['Amazon', 'Noon', 'Jumia', 'Carrefour'].map(store => (
-                    <label key={store} className="flex items-center cursor-pointer">
-                      <input 
-                        type="checkbox" 
-                        className="rounded text-primary mr-2"
-                        checked={selectedStores.includes(store)}
-                        onChange={() => {
-                          if (selectedStores.includes(store)) {
-                            setSelectedStores(selectedStores.filter(s => s !== store));
-                          } else {
-                            setSelectedStores([...selectedStores, store]);
-                          }
-                        }}
-                      />
-                      <span className="text-sm">{store}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Categories */}
-              <div className="mb-6">
-                <h3 className="text-sm font-medium mb-3">{t('categories')}</h3>
-                <div className="space-y-2">
-                  {['Electronics', 'Smartphones', 'Audio', 'Laptops', 'Accessories'].map(category => (
-                    <label key={category} className="flex items-center cursor-pointer">
-                      <input 
-                        type="checkbox" 
-                        className="rounded text-primary mr-2"
-                        checked={selectedCategories.includes(category)}
-                        onChange={() => {
-                          if (selectedCategories.includes(category)) {
-                            setSelectedCategories(selectedCategories.filter(c => c !== category));
-                          } else {
-                            setSelectedCategories([...selectedCategories, category]);
-                          }
-                        }}
-                      />
-                      <span className="text-sm">{category}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Apply Filters Button */}
-              <Button className="w-full">
-                {t('applyFilters')}
-              </Button>
-            </aside>
+            <div className="hidden lg:block w-64 sticky top-24">
+              <FilterSidebar 
+                priceRange={priceRange}
+                setPriceRange={setPriceRange}
+                selectedStores={selectedStores}
+                setSelectedStores={setSelectedStores}
+                selectedCategories={selectedCategories}
+                setSelectedCategories={setSelectedCategories}
+                applyFilters={applyFilters}
+              />
+            </div>
 
             {/* Mobile Filter Button */}
             <div className="lg:hidden sticky top-20 z-30 bg-background py-2">
@@ -268,103 +217,29 @@ const SearchResults = () => {
             </div>
 
             {/* Mobile Filter Sidebar */}
-            {isFilterOpen && (
-              <div className="lg:hidden fixed inset-0 z-50 bg-background/80 backdrop-blur-sm">
-                <div className="fixed inset-y-0 right-0 w-80 glass shadow-lg animate-slide-in p-4 overflow-y-auto">
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="font-medium">{t('filter')}</h2>
-                    <button 
-                      onClick={() => setIsFilterOpen(false)}
-                      className="p-1 rounded-full hover:bg-secondary/80"
-                    >
-                      <X size={20} />
-                    </button>
-                  </div>
-                  
-                  {/* Mobile filters content - same as desktop */}
-                  {/* ... */}
-                  
-                  {/* Apply Filters Button */}
-                  <div className="mt-auto pt-4">
-                    <Button 
-                      className="w-full"
-                      onClick={() => setIsFilterOpen(false)}
-                    >
-                      {t('applyFilters')}
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
+            <MobileFilterSidebar 
+              isOpen={isFilterOpen}
+              onClose={() => setIsFilterOpen(false)}
+              priceRange={priceRange}
+              setPriceRange={setPriceRange}
+              selectedStores={selectedStores}
+              setSelectedStores={setSelectedStores}
+              selectedCategories={selectedCategories}
+              setSelectedCategories={setSelectedCategories}
+              applyFilters={applyFilters}
+            />
 
             {/* Results */}
             <div className="flex-1">
               {/* Sort Options */}
-              <div className="flex flex-wrap items-center justify-between mb-6 gap-4">
-                <p className="text-sm text-muted-foreground">
-                  {language === 'en' 
-                    ? `Showing ${filteredProducts.length} results` 
-                    : `عرض ${filteredProducts.length} نتيجة`
-                  }
-                </p>
-                
-                <div className="flex items-center space-x-2">
-                  <span className="text-sm font-medium">{t('sortBy')}:</span>
-                  <div className="flex space-x-1">
-                    <Button 
-                      variant={sortOption === 'popularity' ? 'default' : 'outline'} 
-                      size="sm"
-                      onClick={() => handleSortChange('popularity')}
-                    >
-                      {language === 'en' ? 'Popularity' : 'الشعبية'}
-                    </Button>
-                    <Button 
-                      variant={sortOption === 'price_asc' ? 'default' : 'outline'} 
-                      size="sm"
-                      onClick={() => handleSortChange('price_asc')}
-                    >
-                      <SortAsc size={14} className="mr-1" />
-                      {language === 'en' ? 'Price' : 'السعر'}
-                    </Button>
-                    <Button 
-                      variant={sortOption === 'price_desc' ? 'default' : 'outline'} 
-                      size="sm"
-                      onClick={() => handleSortChange('price_desc')}
-                    >
-                      <SortDesc size={14} className="mr-1" />
-                      {language === 'en' ? 'Price' : 'السعر'}
-                    </Button>
-                    <Button 
-                      variant={sortOption === 'discount' ? 'default' : 'outline'} 
-                      size="sm"
-                      onClick={() => handleSortChange('discount')}
-                    >
-                      {language === 'en' ? 'Discount' : 'الخصم'}
-                    </Button>
-                  </div>
-                </div>
-              </div>
+              <SortOptions 
+                sortOption={sortOption}
+                onSortChange={handleSortChange}
+                resultsCount={filteredProducts.length}
+              />
               
               {/* Product Grid */}
-              {filteredProducts.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredProducts.map(product => (
-                    <ProductCard key={product.id} {...product} />
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-12">
-                  <p className="text-lg font-medium mb-2">
-                    {language === 'en' ? 'No products found' : 'لم يتم العثور على منتجات'}
-                  </p>
-                  <p className="text-muted-foreground">
-                    {language === 'en' 
-                      ? 'Try adjusting your search or filter to find what you are looking for.' 
-                      : 'حاول تعديل البحث أو الفلتر للعثور على ما تبحث عنه.'
-                    }
-                  </p>
-                </div>
-              )}
+              <ProductGrid products={filteredProducts} />
             </div>
           </div>
         </div>
