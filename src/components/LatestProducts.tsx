@@ -1,7 +1,13 @@
-
 import { useLanguage } from '@/hooks/useLanguage';
 import { Clock } from 'lucide-react';
 import ProductCard from './ProductCard';
+import { 
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
+} from '@/components/ui/carousel';
 
 const LatestProducts = () => {
   const { language, t, theme } = useLanguage();
