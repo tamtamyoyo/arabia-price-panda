@@ -1,6 +1,8 @@
+
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
@@ -98,6 +100,7 @@ const mockProducts = [
 const SearchResults = () => {
   const location = useLocation();
   const { t, language } = useLanguage();
+  const isMobile = useIsMobile();
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOption, setSortOption] = useState<SortOption>('popularity');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -173,8 +176,8 @@ const SearchResults = () => {
       <main className="flex-grow pt-20 px-4">
         <div className="container mx-auto py-8">
           {/* Search Header */}
-          <div className="mb-8">
-            <h1 className="text-2xl md:text-3xl font-bold mb-4">
+          <div className="mb-6 md:mb-8">
+            <h1 className={`${isMobile ? 'text-xl' : 'text-2xl md:text-3xl'} font-bold mb-4`}>
               {searchTerm ? (
                 <>
                   {language === 'en' ? 'Search results for: ' : 'نتائج البحث عن: '}
@@ -184,7 +187,7 @@ const SearchResults = () => {
                 t('allProducts')
               )}
             </h1>
-            <div className="max-w-xl">
+            <div className="w-full md:max-w-xl">
               <SearchBar />
             </div>
           </div>
@@ -208,10 +211,10 @@ const SearchResults = () => {
             <div className="lg:hidden sticky top-20 z-30 bg-background py-2">
               <Button 
                 variant="outline" 
-                className="w-full flex items-center justify-center"
+                className="w-full flex items-center justify-center gap-2"
                 onClick={() => setIsFilterOpen(true)}
               >
-                <Filter size={16} className="mr-2" />
+                <Filter size={18} />
                 {t('filter')}
               </Button>
             </div>

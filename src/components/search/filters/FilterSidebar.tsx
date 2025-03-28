@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useIsMobile } from '@/hooks/use-mobile';
 import PriceRangeFilter from './PriceRangeFilter';
 import CheckboxFilter from './CheckboxFilter';
 
@@ -27,6 +28,7 @@ const FilterSidebar = ({
   className = "",
 }: FilterSidebarProps) => {
   const { t } = useLanguage();
+  const isMobile = useIsMobile();
   
   const handleStoreToggle = (store: string) => {
     if (selectedStores.includes(store)) {
@@ -45,8 +47,8 @@ const FilterSidebar = ({
   };
 
   return (
-    <aside className={`glass rounded-xl p-4 h-fit ${className}`}>
-      <h2 className="font-medium mb-4">{t('filter')}</h2>
+    <aside className={`${isMobile ? '' : 'glass rounded-xl p-4'} h-fit ${className}`}>
+      {!isMobile && <h2 className="font-medium mb-4">{t('filter')}</h2>}
       
       {/* Price Range */}
       <PriceRangeFilter 
@@ -71,7 +73,10 @@ const FilterSidebar = ({
       />
       
       {/* Apply Filters Button */}
-      <Button className="w-full" onClick={applyFilters}>
+      <Button 
+        className="w-full mt-4" 
+        onClick={applyFilters}
+      >
         {t('applyFilters')}
       </Button>
     </aside>
